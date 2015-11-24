@@ -3,9 +3,9 @@
 // angular.module is a global place for creating, registering and retrieving Angular modules
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
-var CodePushIonic = angular.module('starter', ['ionic','ngCordova'])
+var CodePushIonic = angular.module('starter', ['ionic', 'ngCordova'])
 
-CodePushIonic.run(function ($ionicPlatform, $ionicLoading, $rootScope) {
+CodePushIonic.run(function ($ionicPlatform, $ionicLoading, $rootScope, $cordovaDialogs) {
     $ionicPlatform.ready(function () {
         // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
         // for form inputs)
@@ -32,20 +32,33 @@ CodePushIonic.run(function ($ionicPlatform, $ionicLoading, $rootScope) {
         };
 
         var onUpdateCheck = function (remotePackage) {
+
             $rootScope.$broadcast('loading:show')
             if (!remotePackage) {
                 $rootScope.$broadcast('loading:hide')
 
                 console.log("The application is up to date.");
             } else {
-                $rootScope.$broadcast('loading:hide')
+                $cordovaDialogs.confirm('message', 'title', ['Ok', 'Cancel'])
+                    .then(function (buttonIndex) {
+                        if (buttonIndex == '1') {
 
-                console.log("A CodePush update is available. Package hash: " + remotePackage.packageHash);
-                remotePackage.download(onPackageDownloaded, onError);
+                            $rootScope.$broadcast('loading:show')
+                            console.log("A CodePush update is available. Package hash: " + remotePackage.packageHash);
+                            remotePackage.download(onPackageDownloaded, onError);
+                        }
+                        else{
+
+                            $rootScope.$broadcast('loading:hide');
+
+                        }
+                    });
+
             }
         };
 
         window.codePush.checkForUpdate(onUpdateCheck, onError);
+
         $rootScope.$on('loading:show', function () {
             $ionicLoading.show({
                 template: '<p class="center">' +

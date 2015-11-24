@@ -20,7 +20,9 @@ CodePushIonic.controller("CameraCtrl", function ($scope, $cordovaCamera) {
         $cordovaCamera.getPicture(options).then(function (imageData) {
             $scope.imgURI = "data:image/jpeg;base64," + imageData;
         }, function (err) {
-            // An error occured. Show a message to the user
+            if (appConstants.debug) {
+                alert('Failed because: ' + message);
+            }
         });
     }
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -43,7 +45,9 @@ CodePushIonic.controller("CameraCtrl", function ($scope, $cordovaCamera) {
         $cordovaCamera.getPicture(options).then(function (imageData) {
             $scope.imgURI = "data:image/jpeg;base64," + imageData;
         }, function (err) {
-            // An error occured. Show a message to the user
+            if (appConstants.debug) {
+                alert('Failed because: ' + message);
+            }
         });
     }
 

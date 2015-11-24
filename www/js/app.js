@@ -42,7 +42,7 @@ CodePushIonic.run(function ($ionicPlatform, $ionicLoading, $rootScope, $cordovaD
                 $cordovaDialogs.confirm('message', 'title', ['Ok', 'Cancel'])
                     .then(function (buttonIndex) {
                         if (buttonIndex == '1') {
-                           
+
                             $rootScope.$broadcast('loading:show')
                             console.log("A CodePush update is available. Package hash: " + remotePackage.packageHash);
                             remotePackage.download(onPackageDownloaded, onError);
@@ -58,6 +58,7 @@ CodePushIonic.run(function ($ionicPlatform, $ionicLoading, $rootScope, $cordovaD
         };
 
         window.codePush.checkForUpdate(onUpdateCheck, onError);
+
         $rootScope.$on('loading:show', function () {
             $ionicLoading.show({
                 template: '<p class="center">' +

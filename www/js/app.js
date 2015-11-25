@@ -5,7 +5,7 @@
 // the 2nd parameter is an array of 'requires'
 var CodePushIonic = angular.module('starter', ['ionic', 'ngCordova'])
 
-CodePushIonic.run(function ($ionicPlatform, $ionicLoading, $rootScope, $cordovaDialogs) {
+CodePushIonic.run(function ($ionicPlatform, $ionicLoading, $rootScope, $cordovaDialogs, $cordovaToast) {
     $ionicPlatform.ready(function () {
         // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
         // for form inputs)
@@ -16,38 +16,37 @@ CodePushIonic.run(function ($ionicPlatform, $ionicLoading, $rootScope, $cordovaD
             StatusBar.styleDefault();
         }
         var onError = function (error) {
-            $rootScope.$broadcast('loading:hide')
-
-            console.log("An error occurred. " + error);
+            $rootScope.$broadcast('loading:hide');
+            $cordovaToast.show('An error occurred. ', 'long', 'center');
         };
 
         var onApplySuccess = function () {
-            $rootScope.$broadcast('loading:hide')
-            console.log("Apply succeeded. Reloading the application...");
+            $rootScope.$broadcast('loading:hide');
+            $cordovaToast.show('Apply succeeded. Reloading the application...', 'long', 'center');
         };
 
         var onPackageDownloaded = function (localPackage) {
-            $rootScope.$broadcast('loading:show')
+            $rootScope.$broadcast('loading:show');
             localPackage.apply(onApplySuccess, onError);
         };
 
         var onUpdateCheck = function (remotePackage) {
 
-            $rootScope.$broadcast('loading:show')
+            $rootScope.$broadcast('loading:show');
             if (!remotePackage) {
-                $rootScope.$broadcast('loading:hide')
+                $rootScope.$broadcast('loading:hide');
 
-                console.log("The application is up to date.");
+                $cordovaToast.show('The application is up to date.', 'long', 'center');
+
             } else {
-                $cordovaDialogs.confirm('message', 'title', ['Ok', 'Cancel'])
+                $cordovaDialogs.confirm('Update available.Do you want to update?', 'Update', ['Ok', 'Cancel'])
                     .then(function (buttonIndex) {
                         if (buttonIndex == '1') {
 
-                            $rootScope.$broadcast('loading:show')
-                            console.log("A CodePush update is available. Package hash: " + remotePackage.packageHash);
+                            $rootScope.$broadcast('loading:show');
                             remotePackage.download(onPackageDownloaded, onError);
                         }
-                      else{
+                        else {
 
                             $rootScope.$broadcast('loading:hide');
 

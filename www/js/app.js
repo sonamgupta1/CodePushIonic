@@ -5,7 +5,7 @@
 // the 2nd parameter is an array of 'requires'
 var CodePushIonic = angular.module('starter', ['ionic', 'ngCordova'])
 
-CodePushIonic.run(function ($ionicPlatform, $ionicLoading, $rootScope, $cordovaDialogs) {
+CodePushIonic.run(function ($ionicPlatform, $ionicLoading, $rootScope, $cordovaDialogs,$cordovaSQLite) {
     $ionicPlatform.ready(function () {
         // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
         // for form inputs)
@@ -15,6 +15,10 @@ CodePushIonic.run(function ($ionicPlatform, $ionicLoading, $rootScope, $cordovaD
         if (window.StatusBar) {
             StatusBar.styleDefault();
         }
+
+        db = $cordovaSQLite.openDB("my.db");
+        $cordovaSQLite.execute(db, "CREATE TABLE IF NOT EXISTS people (id integer primary key, firstname text, lastname text)");
+
         var onError = function (error) {
             $rootScope.$broadcast('loading:hide')
 
@@ -72,4 +76,5 @@ CodePushIonic.run(function ($ionicPlatform, $ionicLoading, $rootScope, $cordovaD
             $ionicLoading.hide()
         })
     });
+
 })

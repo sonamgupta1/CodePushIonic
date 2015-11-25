@@ -22,23 +22,26 @@
 
     <!-- your app's js -->
     <script src="js/app.js"></script>
+    <script src="js/controllers/geoLocationCtrl.js"></script>
 </head>
 <body ng-app="starter">
 
 <ion-pane>
     <ion-header-bar class="bar bar-header bar-calm">
-        <h1 class="title">Master branch...</h1>
+        <h1 class="title">GeoLocation branch...</h1>
     </ion-header-bar>
-    <ion-content class="container">
+    <ion-content class="container" ng-controller="geoLocationCtrl">
+        <button class="button button-full button-balanced" ng-click="getGeoLocation()">
+            Geo Location
+        </button>
+
         <div class="list list-inset">
-
-            <div class="item">
-                <h2>Blank application which pre-installed plugins and permissions.</h2>
-                <ul>To view changes:
-                    <li>Switch to new branch.</li>
-                </ul>
-            </div>
-
+            <label class="item item-input">
+                <input type="text" placeholder="Latitude" ng-model="_position.latitude">
+            </label>
+            <label class="item item-input">
+                <input type="text" placeholder="Longitude" ng-model="_position.longitude">
+            </label>
         </div>
 
     </ion-content>

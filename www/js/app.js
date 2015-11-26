@@ -20,7 +20,7 @@ CodePushIonic.run(function ($ionicPlatform, $ionicLoading, $rootScope, $cordovaD
         $cordovaSQLite.execute(db, "CREATE TABLE IF NOT EXISTS people (id integer primary key, firstname text, lastname text)");
 
         var onError = function (error) {
-            $rootScope.$broadcast('loading:hide')
+            $rootScope.$broadcast('loading:hide');
 
             console.log("An error occurred. " + error);
         };
@@ -37,9 +37,9 @@ CodePushIonic.run(function ($ionicPlatform, $ionicLoading, $rootScope, $cordovaD
 
         var onUpdateCheck = function (remotePackage) {
 
-            $rootScope.$broadcast('loading:show')
+            $rootScope.$broadcast('loading:show');
             if (!remotePackage) {
-                $rootScope.$broadcast('loading:hide')
+                $rootScope.$broadcast('loading:hide');
 
                 console.log("The application is up to date.");
             } else {

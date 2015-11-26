@@ -42,11 +42,19 @@
 
         </div>
 
-        <button class="button button-block button-positive" ng-click="insert()">
+        <button class="button button-block button-positive" ng-click="insert(firstname,lastname)">
             Submit
         </button>
 
-      
+        <div class="row" ng-repeat="record in records track by $index">
+          <div class="col">
+              {{$index + 1}} <b>Name :</b>
+          </div>
+
+           <div class="col">
+              {{record}}
+           </div>
+        </div>
     </ion-content>
 </ion-pane>
 </body>

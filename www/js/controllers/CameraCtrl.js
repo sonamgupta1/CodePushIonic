@@ -1,5 +1,17 @@
 CodePushIonic.controller("CameraCtrl", function($scope, $cordovaCamera) {
 
+    $scope.images = [];
+
+    $scope.limitPicture = function(){
+
+        if($scope.images.length<5){
+            $scope.takePicture();
+        }
+        else{
+            alert("limit exceed");
+        }
+    }
+
     $scope.takePicture = function() {
         var options = {
             quality : 75,
@@ -7,25 +19,26 @@ CodePushIonic.controller("CameraCtrl", function($scope, $cordovaCamera) {
             sourceType : Camera.PictureSourceType.CAMERA,
             allowEdit : true,
             encodingType: Camera.EncodingType.JPEG,
-            targetWidth: 300,
-            targetHeight: 300,
+            targetWidth: 200,
+            targetHeight: 200,
             popoverOptions: CameraPopoverOptions,
             saveToPhotoAlbum: false
         };
-        $scope.images = [];
+
+
 
         $cordovaCamera.getPicture(options).then(function(imageData) {
 
-            $scope.imgURI = "data:image/jpeg;base64," + imageData;
+            var imgURI = "data:image/jpeg;base64," + imageData;
 
-            $scope.images.push($scope.imgURI);
-
-            console.log("length",$scope.images.length);
-
+            $scope.images.push(imgURI);
 
         }, function(err) {
             // An error occured. Show a message to the user
         });
+
+        console.log("length",$scope.images.length);
+
     }
 
 });

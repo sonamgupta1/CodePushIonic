@@ -1,18 +1,6 @@
-CodePushIonic.controller("sqliteCtrl", function($scope, $cordovaSQLite) {
+CodePushIonic.controller("sqliteCtrl", function($scope, $cordovaSQLite,$timeout) {
 
-    $scope.insert = function(firstname, lastname) {
-        var query = "INSERT INTO people (firstname, lastname) VALUES (?,?)";
-        $cordovaSQLite.execute(db, query, [firstname, lastname]).then(function(res) {
-            console.log("INSERT ID -> " + res.insertId);
-
-        }, function (err) {
-            console.error(err);
-        });
-        $scope.select();
-
-    }
-
-    $scope.select = function() {
+    select = function() {
         var query = "SELECT firstname, lastname FROM people";
         $cordovaSQLite.execute(db, query).then(function(res) {
 
@@ -22,7 +10,7 @@ CodePushIonic.controller("sqliteCtrl", function($scope, $cordovaSQLite) {
 
                 for(var i =0; i< res.rows.length ; i++){
 
-                 console.log("SELECTED -> " + res.rows.item(i).firstname + " " + res.rows.item(i).lastname);
+                    console.log("SELECTED -> " + res.rows.item(i).firstname + " " + res.rows.item(i).lastname);
 
                     $scope.first_name = res.rows.item(i).firstname;
 
@@ -39,5 +27,25 @@ CodePushIonic.controller("sqliteCtrl", function($scope, $cordovaSQLite) {
             console.error(err);
         });
     }
+    $timeout(function() {
+        select();
+    }, 3000);
+
+
+    $scope.insert = function(firstname, lastname) {
+        var query = "INSERT INTO people (firstname, lastname) VALUES (?,?)";
+        $cordovaSQLite.execute(db, query, [firstname, lastname]).then(function(res) {
+            console.log("INSERT ID -> " + res.insertId);
+
+        }, function (err) {
+            console.error(err);
+        });
+        $scope.firstname = "";
+        $scope.lastname = "";
+        select();
+
+    }
+
+
 
 });
